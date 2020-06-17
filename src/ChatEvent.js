@@ -8,6 +8,7 @@ export default function ChatEvent(props) {
     return (
       <ChatMessage
         participant={participant}
+        type={type}
         timestamp={timestamp}
         message={message}
       />

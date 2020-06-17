@@ -22,6 +22,7 @@ export default function Chat(props) {
 // Props
 // events -> array of objects with type, message, timestamp, participantId
 // participants -> array of objects with id
+const div = document.createElement("div");
 
 ReactDOM.render(
   <Chat
