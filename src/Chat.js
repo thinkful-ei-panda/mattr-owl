@@ -1,41 +1,45 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import ChatEvent from "./ChatEvent";
 import "./Chat.css";
 
-export default funtion ChatEvent(props){
-    const { timestamp, participant, type, message } = props;
-    if (props.type === "message") {
-        return (
-            <ChatMessage
-                participant={participant}
-                timestamp={timestamp}
-                message={message}
-                />
-        );
-    }
-
-    let text;
-    if (props.type === "thumbs-up") {
-        text = "gave a thumbs up";
-    } else if (props.type === "thumbs-down") {
-        text = "gave thumbs down";
-    } else if (props.type === "clap"){
-        text = "clapped";
-    } else if (props.type === "raise-hand") {
-        text = "raised their hand";
-    } else if (props.type === "join") {
-        text = "joined the room";
-    } else if (props.type === "leave") {
-        text = "left the room";
-    } else if (props.type === "join-stage") {
-        text = "joined the stage";
-    }else if (props.type === "leave-stage") {
-        text = "left the stage";
-    }
-
-    return (
-        <div className="chat-event">
-            <span className="chat-event-participant-name">{participant.name}</span> {text}
-        </div>
-    );
+export default function Chat(props) {
+  const events = props.events.map((event, index) => (
+    <li key={index}>
+      <ChatEvent
+        type={event.type}
+        message={event.message}
+        timestamp={event.timestamp}
+        participant={props.participants.find(
+          participant => participant.id === event.participantId
+        )}
+      />
+    </li>
+  ));
+  return <ul className="chat">{events}</ul>;
 }
+
+// Props
+// events -> array of objects with type, message, timestamp, participantId
+// participants -> array of objects with id
+
+ReactDOM.render(
+  <Chat
+    events={[
+      { type: "thumbs-up", message: "", timestamp: 1233456, participantId: 4 },
+      { type: "chat-message", message: "Hello world", timestamp: 1233457, participantId: 5 },
+    ]}
+    participants={[{id: 4}, {id: 5}]}
+  />,
+  div
+);
+
+ReactDOM.render(
+  <Chat
+    events={[
+      { type: "thumbs-up", message: "", timestamp: 1233456, participantId: 4 },
+    ]}
+    participants={[{id: 5}]}
+  />,
+  div
+);
